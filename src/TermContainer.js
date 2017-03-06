@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import { Link } from 'react-router';
+import Term from './Term'
 
-class Term extends Component {
+class TermContainer extends Component {
   static propTypes = {
     params: React.PropTypes.shape({
       termName: React.PropTypes.string.isRequired,
@@ -10,6 +11,7 @@ class Term extends Component {
   };
 
   render() {
+    console.log('------------props', this.props)
     return (
       <div className="term">
         <Link to="/terms">
@@ -21,9 +23,10 @@ class Term extends Component {
         <code>
           /terms?q=Full%20Stack&_limit=1
         </code>
+        {false && <Term term={{}}/>}
       </div>
     );
   }
 }
 
-export default Term;
+export default TermContainer;

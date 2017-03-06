@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router';
+import fetchData from './FetchData'
 
 class Navigation extends Component {
   static contextTypes = {
@@ -10,7 +11,7 @@ class Navigation extends Component {
 
   render() {
     const { loggedInUser } = this.context;
-
+    const { definitionCount } = this.props
     return (
       <Navbar collapseOnSelect>
         <Navbar.Header>
@@ -27,7 +28,7 @@ class Navigation extends Component {
               <strong>{loggedInUser.name}</strong>
             </Navbar.Text>}
             {loggedInUser && <Navbar.Text>
-              {'{3}'} definitions
+              {definitionCount} definitions
             </Navbar.Text>}
             {loggedInUser && <LinkContainer to="/logout"><NavItem eventKey={2}>Logout</NavItem></LinkContainer>}
             {!loggedInUser && <LinkContainer to="/login"><NavItem eventKey={2}>Login</NavItem></LinkContainer>}
@@ -38,4 +39,11 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation
+function manipulateProps({ data = [] } = {}) {
+  return {
+    definitionCount: data.length,
+  }
+}
+
+// This might be an argument to use Redux. But it is not a huge issue to fetch the data again here. Maybe if we have a lot of data, but in that case we would implement pagination in our app and would not be able to use the length of the array of data on the client side anyway. So this becomes an issue with the limitations we have on the server. We would ideally have a server side route that would return to us the count of all the definitions that my user wrote.
+export default fetchData(manipulateProps)(Navigation, '/definitions?userId=1')
