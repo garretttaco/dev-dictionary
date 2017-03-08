@@ -25,12 +25,8 @@ class Dictionary extends Component {
         {showAddTerm && <AddTerm hide={this.toggleAdd} />}
         <div className="terms">
           {terms.map(term => {
-            // Do NOT do this here, use the _embed functionality below in the fetchData call
-            const TermWithDefinitions = fetchData()(
-              Term,
-              `//localhost:4501/definitions?termId=${term.id}`
-            )
-            return <TermWithDefinitions key={term.id} term={term} hasLink />;
+            console.log('-----------term',term)
+            return <Term key={term.id} term={term} definitions={term.definitions} hasLink />;
           })}
         </div>
       </div>
@@ -38,4 +34,4 @@ class Dictionary extends Component {
   }
 }
 
-export default fetchData()(Dictionary, '//localhost:4501/terms_embed=definitions');
+export default fetchData()(Dictionary, '//localhost:4501/terms?_embed=kljdagl');

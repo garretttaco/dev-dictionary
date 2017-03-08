@@ -18,12 +18,13 @@ class Term extends Component {
   toggleAdd = () => this.setState({ showAddDefinition: !this.state.showAddDefinition })
 
   render() {
-    const { term, data: definitions, hasLink } = this.props;
+    const { term, definitions, hasLink } = this.props;
     const { showAddDefinition } = this.state;
 
     return (
       <div className="term">
         <h3>
+      {/* To reuse this component we add a conditional to check if we should display the link on the title or not */}
           {hasLink ?
           <Link to={`/terms/${term.name}`}>{term.name}</Link> :
             term.name

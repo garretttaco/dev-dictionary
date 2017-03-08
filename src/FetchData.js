@@ -14,8 +14,10 @@ const FetchData = manipulateProps => (DatalessComponent, url, options = {}) =>
     async componentWillMount() {
       try {
         const data = await CommonActions.fetchJson(url)
+        // If the user passed in a function to manipulate props, we call it.
         if (typeof manipulateProps === 'function') {
           const props = await manipulateProps({ data })
+          // We can do this here because setStates are batched.
           this.setState({ props })
         }
         this.setState({
@@ -24,6 +26,10 @@ const FetchData = manipulateProps => (DatalessComponent, url, options = {}) =>
           success: true,
         })
       } catch (error) {
+        // Issue I ran into. This catches the DatalessComponents errors and then the following FetchData HoC does not continue with its process and gets stuck on loading. Anyone have any insight on that?
+        // To reproduce go to the Term component and remove the _embed value. This will cause the Definitions component to error out and propagate that error here.
+        // This error will say cannot map over property undefined.
+        console.log('------------error', error)
         this.setState({
           loading: false,
           success: false,
@@ -36,7 +42,7 @@ const FetchData = manipulateProps => (DatalessComponent, url, options = {}) =>
       const manipulatedProps = { ...this.props, ...props }
   		return (
   			<div>
-  				{loading ?
+  				{loading && !success ?
             <h3>loading...</h3> :
             !loading && success ? <DatalessComponent {...manipulatedProps} data={data} /> :
             <Alert bsStyle="danger">We are having trouble loading this data.</Alert>}
