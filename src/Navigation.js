@@ -48,4 +48,5 @@ function manipulateProps({ data = [] } = {}) {
 
 // The problem: We need to get the count of definitions that my user wrote.
 // It might be argued that we should use Redux here. But it is not a huge issue to fetch the data again here. Maybe if we have a lot of data, but in that case we would implement pagination in our app and would not be able to use the length of the array of data on the client side anyway. So this becomes an issue with the limitations we have on the server. We would ideally have a server side route that would return to us the count of all the definitions that my user wrote.
-export default fetchData(manipulateProps)(Navigation, '/definitions?userId=1')
+// Downside to my approach: I have to pass down the user Id to make this work. In the way I built it and the time I allocated to this, I was unable to find a better approach. This can be true for real life scenarios, we have a deadline and we try to experiment with new methods of doing things and we end up running out of time as I did here. See the Layout component.
+export default fetchData(manipulateProps)(Navigation, '/definitions')

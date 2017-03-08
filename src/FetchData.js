@@ -13,7 +13,11 @@ const FetchData = manipulateProps => (DatalessComponent, url, options = {}) =>
 
     async componentWillMount() {
       try {
-        const data = await CommonActions.fetchJson(url)
+        let query = ''
+        if (this.props.query) {
+          query = this.props.query
+        }
+        const data = await CommonActions.fetchJson(`${url}${query}`)
         // If the user passed in a function to manipulate props, we call it.
         if (typeof manipulateProps === 'function') {
           const props = await manipulateProps({ data })

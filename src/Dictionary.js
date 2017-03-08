@@ -25,7 +25,6 @@ class Dictionary extends Component {
         {showAddTerm && <AddTerm hide={this.toggleAdd} />}
         <div className="terms">
           {terms.map(term => {
-            console.log('-----------term',term)
             return <Term key={term.id} term={term} definitions={term.definitions} hasLink />;
           })}
         </div>
@@ -34,4 +33,4 @@ class Dictionary extends Component {
   }
 }
 
-export default fetchData()(Dictionary, '//localhost:4501/terms?_embed=kljdagl');
+export default fetchData()(Dictionary, '//localhost:4501/terms?_embed=definitions');

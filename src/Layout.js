@@ -4,9 +4,11 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 class Layout extends Component {
   render() {
+    const { logggedInUser } = this.props
+    const query = logggedInUser ? `?userId=${logggedInUser.id}` : ''
     return (
       <div>
-        <Navigation />
+        <Navigation query={query}/>
         <Grid>
           <Row>
             <Col>

@@ -41,7 +41,7 @@ class App extends Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path="/" component={Layout}>
+        <Route path="/" component={props => <Layout {...props} loggedInUser={this.state.loggedInUser} />}>
           <IndexRoute component={Welcome} />
           <Route path="login" component={props => <Login { ...props} markUserLoggedIn={this.markUserLoggedIn} />} />
           <Route path="logout" component={props => <Logout { ...props} markUserLoggedOut={this.markUserLoggedOut} />} />
