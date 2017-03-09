@@ -3,6 +3,8 @@ import { Button, Col, ControlLabel, Form, FormControl, FormGroup, HelpBlock, Ima
 import Select from 'react-select';
 import jsonData from '../data/db';
 import 'react-select/dist/react-select.css';
+import fetchData from './FetchData'
+import postData from './PostData'
 
 // TODO: Fetch list of users from server via API.
 const options = jsonData.users;
@@ -25,17 +27,31 @@ class AddDefinition extends Component {
 
   state = {
     who: null,
-  };
+    content: ''
+  }
 
-  createDefinition = () => {
-    // POST the definition to the server.
+  onChangeUpdateValue = e => {
+    const name = e.target.name
+    const value = e.target.value
+    this.setState({
+      [name]: value,
+    })
+  }
+
+  createDefinition = async e => {
+    const { who: user, content } = this.state
+    const userId = user.id
+    const { termId, hide } = this.props
+    // How do I get this newly posted data to the fetchData component which is a mini store.
+    await this.props.post({ userId, content, termId }, '/definitions')
+    hide()
   }
 
   selectWho = user => this.setState({ who: user });
 
   render() {
     const { hide } = this.props;
-    const { who } = this.state;
+    const { who, content } = this.state;
 
     return (
       <Well className="add-term">
@@ -45,7 +61,13 @@ class AddDefinition extends Component {
               Definition
             </Col>
             <Col sm={10}>
-              <FormControl componentClass="textarea" placeholder="Add your definition"/>
+              <FormControl
+                componentClass="textarea"
+                placeholder="Add your definition"
+                value={content}
+                name="content"
+                onChange={this.onChangeUpdateValue}
+              />
             </Col>
           </FormGroup>
 
@@ -80,4 +102,4 @@ class AddDefinition extends Component {
   }
 }
 
-export default AddDefinition;
+export default fetchData()(postData(AddDefinition), '/users')

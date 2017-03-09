@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import { Button, ControlLabel, Form, FormControl, FormGroup, Col, Well } from 'react-bootstrap';
+import postData from './PostData'
 
 class AddTerm extends Component {
   static propTypes = {
     hide: React.PropTypes.func.isRequired,
   };
 
-  createTerm = () => {
-    // POST the term to the server.
+  state = {
+    name: '',
+  }
+
+  onChangeUpdateValue = e => {
+    const name = e.target.name
+    const value = e.target.value
+    this.setState({
+      [name]: value,
+    })
+  }
+
+  createTerm = async e => {
+    const { term } = this.state
+    const userId = this.props.loggedInUser.id
+    const { hide } = this.props
+    // How do I get this newly posted data to the fetchData component which is a mini store.
+    await this.props.post({ userId, name }, '/terms')
+    hide()
   }
 
   render() {
     const { hide } = this.props;
-
     return (
       <Well className="add-term">
         <Form horizontal>
@@ -21,7 +38,11 @@ class AddTerm extends Component {
               Term
             </Col>
             <Col sm={10}>
-              <FormControl />
+              <FormControl
+                name="name"
+                value={this.state.name}
+                onChange={this.onChangeUpdateValue}
+              />
             </Col>
           </FormGroup>
 
@@ -39,4 +60,4 @@ class AddTerm extends Component {
   }
 }
 
-export default AddTerm;
+export default postData(AddTerm)

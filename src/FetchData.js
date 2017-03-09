@@ -3,7 +3,7 @@ import CommonActions from './commonActions'
 import { Alert } from 'react-bootstrap'
 
 const FetchData = manipulateProps => (DatalessComponent, url, options = {}) =>
-  class HoC extends Component {
+  class Wrapper extends Component {
   	state ={
   		data: [],
       loading: true,

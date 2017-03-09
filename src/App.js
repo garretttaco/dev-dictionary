@@ -46,8 +46,13 @@ class App extends Component {
           <Route path="login" component={props => <Login { ...props} markUserLoggedIn={this.markUserLoggedIn} />} />
           <Route path="logout" component={props => <Logout { ...props} markUserLoggedOut={this.markUserLoggedOut} />} />
           <Route path="terms">
-            <IndexRoute component={Dictionary} />
-            <Route path=":termName" component={TermContainer} />
+            <IndexRoute
+              component={props => <Dictionary {...props}
+              loggedInUser={this.state.loggedInUser}/>}
+            />
+            <Route path=":termName" component={props => {
+              return <TermContainer {...props} query={`&q=${props.params.termName}`} />
+            }} />
           </Route>
         </Route>
       </Router>

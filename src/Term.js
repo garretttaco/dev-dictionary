@@ -18,26 +18,26 @@ class Term extends Component {
   toggleAdd = () => this.setState({ showAddDefinition: !this.state.showAddDefinition })
 
   render() {
-    const { term, definitions, hasLink } = this.props;
+    const { term, hasLink } = this.props;
     const { showAddDefinition } = this.state;
-
     return (
       <div className="term">
         <h3>
-      {/* To reuse this component we add a conditional to check if we should display the link on the title or not */}
+          {/* To reuse this component we add a conditional to check if we should display the link
+          on the title or not */}
           {hasLink ?
           <Link to={`/terms/${term.name}`}>{term.name}</Link> :
             term.name
           }
         </h3>
-        {definitions.map((definition, index) => {
+        {term.definitions.map((definition, index) => {
           return <Definition key={definition.id} definition={definition} index={index + 1} />
         })}
         <div className="add-definition-section">
           <Button bsStyle="info" bsSize="xsmall" onClick={this.toggleAdd}>
             <Glyphicon glyph="plus-sign" /> Add definition
           </Button>
-          {showAddDefinition && <AddDefinition hide={this.toggleAdd} />}
+          {showAddDefinition && <AddDefinition hide={this.toggleAdd} termId={term.id} />}
         </div>
       </div>
     );

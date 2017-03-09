@@ -14,7 +14,7 @@ class Dictionary extends Component {
 
   render() {
     const { showAddTerm } = this.state;
-    const { data: terms } = this.props
+    const { data: terms, loggedInUser } = this.props
 
     return (
       <div>
@@ -22,10 +22,10 @@ class Dictionary extends Component {
         <Button bsStyle="success" onClick={this.toggleAdd}>
           <Glyphicon glyph="plus-sign" /> Add term
         </Button>
-        {showAddTerm && <AddTerm hide={this.toggleAdd} />}
+        {showAddTerm && <AddTerm hide={this.toggleAdd} loggedInUser={loggedInUser} />}
         <div className="terms">
           {terms.map(term => {
-            return <Term key={term.id} term={term} definitions={term.definitions} hasLink />;
+            return <Term key={term.id} term={term} hasLink />;
           })}
         </div>
       </div>
